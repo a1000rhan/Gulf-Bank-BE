@@ -28,10 +28,14 @@ const UserSchema = new mongoose.Schema({
     // ],
   },
   phoneNumber: {
-    type: String,
-    minlength: 8,
+    type: Number,
     required: true,
-    match: [/^[0-9]{8}$/g, "phone number is more than 8 characters"],
+    validate: {
+      validator: (value) => {
+        return /^[0-9]{8}$/g.test(value);
+      },
+      message: "phone number is not 8 characters",
+    },
   },
   civilId: { type: String },
   email: {
