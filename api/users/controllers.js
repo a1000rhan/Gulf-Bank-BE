@@ -2,11 +2,14 @@ const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const jsonweb = require("jsonwebtoken");
 const { JWT_EXPIRATION, JWT_SECRET } = require("../../config/keys");
+const Account = require("../../models/Account");
 
 const generateToken = (user) => {
   const payload = {
     _id: user._id,
     username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName,
     exp: Date.now() + JWT_EXPIRATION,
   };
   const token = jsonweb.sign(payload, JWT_SECRET);
@@ -23,6 +26,7 @@ exports.signup = async (req, res, next) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     req.body.password = hashedPassword;
+
     const newUser = await User.create({
       username: req.body.username,
       password: req.body.password,
@@ -32,7 +36,18 @@ exports.signup = async (req, res, next) => {
       phoneNumber: req.body.phoneNumber,
       civilId: req.body.civilId,
     });
+
+    const account = await Account.create({
+      nickName: "Falcon bank",
+      balance: 100,
+      owner: newUser._id,
+    });
+    await User.findByIdAndUpdate(
+      { _id: newUser._id },
+      { $push: { accounts: account._id } }
+    );
     const token = generateToken(newUser);
+
     res.status(201).json({ token });
   } catch (error) {
     next(error);

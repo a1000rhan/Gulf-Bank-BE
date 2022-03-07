@@ -6,6 +6,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const path = require("path");
 const userRoutes = require("./api/users/routes");
+const accountRoutes = require("./api/accounts/routes");
 const app = express();
 connectDb();
 app.use(cors());
@@ -21,6 +22,9 @@ passport.use(jwtStrtegy);
 app.use(morgan("dev"));
 //routes:
 app.use("/api", userRoutes);
+
+app.use("/api/accounts", accountRoutes);
+
 // app.use("/api", userRoutes);
 app.use("/media", express.static(path.join(__dirname, "media")));
 // Middleware

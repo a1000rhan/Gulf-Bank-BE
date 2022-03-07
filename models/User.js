@@ -49,7 +49,7 @@ const UserSchema = new mongoose.Schema({
       "Please fill a valid email address",
     ],
   },
-  //   Accounts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Account" }],
+  accounts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Account" }],
   //   Beneficiaries: [{ type: mongoose.Schema.Types.ObjectId, ref: "Beneficiary" }],
 });
 
