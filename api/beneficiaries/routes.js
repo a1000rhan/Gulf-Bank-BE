@@ -28,7 +28,7 @@ router.get("/", beneficiaryListFetch);
 // Beneficiary Create
 router.post(
   "/",
-  passport.authenticate("local", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   createBeneficiary
 );
 

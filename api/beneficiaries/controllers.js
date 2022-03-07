@@ -32,6 +32,8 @@ exports.createBeneficiary = async (req, res, next) => {
   try {
     const newBeneficiary = await Beneficiary.create(req.body);
 
+    // req.body.owner = req.userId;
+
     return res.status(201).json(newBeneficiary);
   } catch (error) {
     return res.status(500).json({ message: error.message });
