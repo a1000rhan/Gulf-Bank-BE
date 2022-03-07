@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const path = require("path");
 const userRoutes = require("./api/users/routes");
 const accountRoutes = require("./api/accounts/routes");
+const beneficiaryRoutes = require("./api/beneficiaries/routes");
 const app = express();
 connectDb();
 app.use(cors());
@@ -25,6 +26,7 @@ app.use("/api", userRoutes);
 
 app.use("/api/accounts", accountRoutes);
 
+app.use("/api/beneficiary", beneficiaryRoutes);
 // app.use("/api", userRoutes);
 app.use("/media", express.static(path.join(__dirname, "media")));
 // Middleware
