@@ -18,6 +18,15 @@ exports.beneficiaryListFetch = async (req, res, next) => {
     // return res.status(500).json({ message: error.message });
   }
 };
+// exports.getABeneficiary = async (req, res, next) => {
+//   try {
+//     const oneBeneficiary = await Beneficiary.findById({ _id: req.beneficiary.id });
+//     // const oneTrip = trips.find((e) => e.id === +id);
+//     res.json(oneBeneficiary);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
 
 exports.createBeneficiary = async (req, res, next) => {
   try {
@@ -26,19 +35,6 @@ exports.createBeneficiary = async (req, res, next) => {
     return res.status(201).json(newBeneficiary);
   } catch (error) {
     return res.status(500).json({ message: error.message });
-  }
-};
-exports.updateBeneficiaries = async (req, res, next) => {
-  try {
-    const beneficiary = await Beneficiary.findByIdAndUpdate(
-      { _id: req.Beneficiary.id },
-      req.body,
-      { new: true, runValidators: true }
-    );
-
-    res.json(beneficiary);
-  } catch (error) {
-    next(error);
   }
 };
 

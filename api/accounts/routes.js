@@ -16,7 +16,7 @@ router.param("accountId", async (req, res, next, id) => {
     req.account = account;
     next();
   } else {
-    next({ status: 404, message: "trip not found" });
+    next({ status: 404, message: "Account not found" });
   }
 });
 

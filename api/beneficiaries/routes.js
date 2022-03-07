@@ -5,8 +5,8 @@ const {
   fetchBeneficiary,
   beneficiaryListFetch,
   createBeneficiary,
-  updateBeneficiaries,
   deleteBeneficiary,
+  getABeneficiary,
 } = require("./controllers");
 
 //param meddileware
@@ -23,6 +23,8 @@ router.param("beneficiaryId", async (req, res, next, beneficiaryId) => {
 
 router.get("/", beneficiaryListFetch);
 
+// router.get("/:beneficiaryId", getABeneficiary);
+
 // Beneficiary Create
 router.post(
   "/",
@@ -32,8 +34,5 @@ router.post(
 
 // Beneficiary Delete
 router.delete("/:beneficiaryId", deleteBeneficiary);
-
-//Beneficiary Update
-router.put("/:beneficiaryId", updateBeneficiaries);
 
 module.exports = router;
