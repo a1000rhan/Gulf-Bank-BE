@@ -41,6 +41,8 @@ exports.createAccount = async (req, res, next) => {
     const ownerId = req.user.id;
 
     req.body.owner = req.user._id;
+    req.body.accountNumber =
+      [4644210] + (Math.floor(Math.random() * 900000000) + 1);
     const newAccount = await Account.create(req.body);
 
     await User.findByIdAndUpdate(

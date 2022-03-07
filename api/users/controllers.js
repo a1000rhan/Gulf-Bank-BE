@@ -36,10 +36,11 @@ exports.signup = async (req, res, next) => {
       phoneNumber: req.body.phoneNumber,
       civilId: req.body.civilId,
     });
-
+    const nu = [4644210] + (Math.floor(Math.random() * 100000000) + 1);
     const account = await Account.create({
       nickName: "Falcon bank",
       balance: 100,
+      accountNumber: nu,
       owner: newUser._id,
     });
     await User.findByIdAndUpdate(

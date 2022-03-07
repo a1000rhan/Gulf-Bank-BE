@@ -5,6 +5,7 @@ const AccountSchema = new mongoose.Schema({
     required: true,
   },
   balance: { type: Number, required: true },
+  accountNumber: { type: Number },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
