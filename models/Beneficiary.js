@@ -6,7 +6,9 @@ const BeneficiarySchema = new mongoose.Schema(
   {
     fullname: { type: String, required: true },
     IBAN: { type: String, uppercase: true, maxlength: 16, minlength: 4 },
-    address: String,
+    bankName: { type: String },
+    address: { type: String },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
 
   {
