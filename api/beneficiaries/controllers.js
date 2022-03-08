@@ -1,4 +1,5 @@
 const Beneficiary = require("../../models/Beneficiary");
+const User = require("../../models/User");
 
 exports.fetchBeneficiary = async (beneficiaryId, next) => {
   try {
@@ -30,9 +31,15 @@ exports.beneficiaryListFetch = async (req, res, next) => {
 
 exports.createBeneficiary = async (req, res, next) => {
   try {
-    const newBeneficiary = await Beneficiary.create(req.body);
+    const ownerId = req.user.id;
 
-    // req.body.owner = req.userId;
+    req.body.owner = req.user._id;
+
+    const newBeneficiary = await Beneficiary.create(req.body);
+    await User.findByIdAndUpdate(
+      { _id: ownerId },
+      { $push: { beneficiaries: newBeneficiary._id } }
+    );
 
     return res.status(201).json(newBeneficiary);
   } catch (error) {

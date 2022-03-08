@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema({
     ],
   },
   accounts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Account" }],
-  //   Beneficiaries: [{ type: mongoose.Schema.Types.ObjectId, ref: "Beneficiary" }],
+  beneficiaries: [{ type: mongoose.Schema.Types.ObjectId, ref: "Beneficiary" }],
 });
 
 module.exports = mongoose.model("User", UserSchema);
