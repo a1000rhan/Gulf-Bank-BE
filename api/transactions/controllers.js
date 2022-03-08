@@ -36,15 +36,40 @@ exports.createTransaction = async (req, res, next) => {
         { new: true }
       );
       res.status(201).json(updatedAccount);
-    } else if (req.body.method === "deposit") {
+    } else if (
+      req.body.method === "transfer" &&
+      parseInt(account.balance) > parseInt(req.body.amount)
+    ) {
       const newTransaction = await Transaction.create(req.body);
       const newBalance =
-        parseInt(req.body.amount) + parseInt(req.account.balance);
+        parseInt(req.account.balance) - parseInt(req.body.amount);
       const updatedAccount = await Account.findByIdAndUpdate(
         { _id: account._id },
         { balance: newBalance, $push: { transactions: newTransaction._id } },
         { new: true, runValidators: true }
       );
+      const destAccount = await Account.findById({ _id: req.body.account });
+
+      const updatedBalanceDestination =
+        parseInt(req.body.amount) + parseInt(destAccount.balance);
+
+      const destTransaction = await Transaction.create({
+        method: "deposit",
+        amount: req.body.amount,
+        account: req.account._id,
+      });
+      const updatedDestination = await Account.findByIdAndUpdate(
+        { _id: req.body.account },
+        {
+          balance: updatedBalanceDestination,
+          $push: { transactions: destTransaction },
+        }
+      );
+      console.log(
+        "🚀 ~ file: controllers.js ~ line 65 ~ exports.createTransaction= ~ updatedDestination",
+        updatedDestination
+      );
+
       res.status(201).json(updatedAccount);
     } else res.status(401).json({ message: "Amount is not sufficient" });
   } catch (error) {
