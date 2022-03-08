@@ -7,6 +7,7 @@ const AccountSchema = new mongoose.Schema({
   balance: { type: Number, required: true },
   accountNumber: { type: Number },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  transactions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Transaction" }],
 });
 
 module.exports = mongoose.model("Account", AccountSchema);
