@@ -12,7 +12,7 @@ exports.fetchAccount = async (accountId, next) => {
 
 exports.getAccounts = async (req, res, next) => {
   try {
-    const AccountArray = await Account.find().populate("owner");
+    const AccountArray = await Account.find().populate("owner transactions");
     res.json(AccountArray);
   } catch (err) {
     next(err);

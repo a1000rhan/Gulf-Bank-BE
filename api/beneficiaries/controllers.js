@@ -12,7 +12,7 @@ exports.fetchBeneficiary = async (beneficiaryId, next) => {
 
 exports.beneficiaryListFetch = async (req, res, next) => {
   try {
-    const beneficiaries = await Beneficiary.find();
+    const beneficiaries = await Beneficiary.find().populate("transactions");
     return res.json(beneficiaries);
   } catch (error) {
     next(error);
