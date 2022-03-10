@@ -40,7 +40,7 @@ exports.createAccount = async (req, res, next) => {
     req.body.owner = req.user._id;
 
     req.body.accountNumber =
-      [4644210] + (Math.floor(Math.random() * 900000000) + 1);
+      [4644210] + (Math.floor(Math.random() * 100000000) + 1);
 
     const newAccount = await Account.create(req.body);
 
