@@ -8,6 +8,14 @@ exports.fetchAccount = async (accountId, next) => {
     next(error);
   }
 };
+exports.getAllTrans = async (req, res, next) => {
+  try {
+    const transactions = await Transaction.find();
+    res.status(201).json(transactions);
+  } catch (error) {
+    next(error);
+  }
+};
 exports.getTransactions = async (req, res, next) => {
   try {
     console.log(req.account);
@@ -23,6 +31,7 @@ exports.getTransactions = async (req, res, next) => {
 exports.createTransaction = async (req, res, next) => {
   try {
     const account = await Account.findById(req.account._id);
+    req.body.owner = req.user._id;
     if (
       parseInt(account.balance) > parseInt(req.body.amount) &&
       req.body.method === "withdraw"
@@ -48,7 +57,9 @@ exports.createTransaction = async (req, res, next) => {
         { balance: newBalance, $push: { transactions: newTransaction._id } },
         { new: true, runValidators: true }
       );
-      const destAccount = await Account.findById({ _id: req.body.account });
+      const destAccount = await Account.findById({
+        _id: req.body.account,
+      });
 
       const updatedBalanceDestination =
         parseInt(req.body.amount) + parseInt(destAccount.balance);
@@ -57,6 +68,7 @@ exports.createTransaction = async (req, res, next) => {
         method: "deposit",
         amount: req.body.amount,
         account: req.account._id,
+        owner: req.user._id,
       });
       const updatedDestination = await Account.findByIdAndUpdate(
         { _id: req.body.account },

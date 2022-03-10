@@ -6,7 +6,7 @@ const TransactionSchema = new mongoose.Schema(
     },
     amount: { type: Number, min: 1 },
     account: { type: mongoose.Schema.Types.ObjectId, ref: "Account" },
-    //   Beneficiaries: [{ type: mongoose.Schema.Types.ObjectId, ref: "Beneficiary" }],
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }
 );

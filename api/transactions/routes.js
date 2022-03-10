@@ -7,6 +7,7 @@ const {
   getTransactions,
   createTransaction,
   fetchAccount,
+  getAllTrans,
 } = require("./controllers");
 router.param("accountId", async (req, res, next, accountId) => {
   const foundAccount = await fetchAccount(accountId, next);
@@ -17,5 +18,10 @@ router.param("accountId", async (req, res, next, accountId) => {
 });
 
 router.get("/:accountId", getTransactions);
-router.post("/:accountId", createTransaction);
+router.get("/", getAllTrans);
+router.post(
+  "/:accountId",
+  passport.authenticate("jwt", { session: false }),
+  createTransaction
+);
 module.exports = router;
